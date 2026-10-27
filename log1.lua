@@ -2005,77 +2005,28 @@ import "android.widget.TextView"
 import "android.widget.Button"
 import "android.view.Gravity"
 
-local isStartedTriggered = false
+start.onClick = function()
+  -- Add the menu view
+  wm.addView(win_icon, p_icon)
+  isMenuOpen = false
+  showToast("Started")
+  -- Launch CODM
+  local pm = activity.getPackageManager()
+  local intent = pm.getLaunchIntentForPackage("com.garena.game.codm")
 
-function startApplication()
-  -- Check kung kailangan ng update
-  if isAppLockedForUpdate then
-    showUpdateDialog()
-    showCustomToast(
-      "❌ Update Required!",
-      0xFF141A24,
-      0xFFFF5252
-    )
-    return
-  end
+  if intent then
+    activity.startActivity(intent)
+    idkcstmToast("Launching CODM...")
 
-  if isStartedTriggered then return end
-  isStartedTriggered = true
-
-  showCustomToast(
-    "⏳ Please wait, Initializing...",
-    0xFF141A24,
-    0xFF00FFEE
-  )
-
-  getPasteStatus(function(status, message)
-    if status ~= "OPEN" then
-      showLockDialog(message)
-      isStartedTriggered = false
-      return
-    end
-
-    pcall(function()
-      if wm and win_icon and p_icon then
-        wm.addView(win_icon, p_icon)
-      end
+    -- Run CODM detector after 3 seconds
+    task(3000, function()
+      startCODMDetector()
     end)
 
-    isMenuOpen = false
-
-    -- Open CODM only when Start is clicked
-    local pm = activity.getPackageManager()
-    local clonePkg = "com.garena.game.codm"
-    local intent = pm.getLaunchIntentForPackage(clonePkg)
-
-    if intent then
-      activity.runOnUiThread(Runnable({
-        run = function()
-          activity.startActivity(intent)
-        end
-      }))
-
-      task(3000, function()
-        pcall(function()
-          startCODMDetector()
-        end)
-      end)
-    else
-      showCustomToast(
-        "❌ CODM / Clone not installed!",
-        0xFF141A24,
-        0xFFFF5252
-      )
-    end
-
-    isStartedTriggered = false
-  end)
-end
-
-if start then
-  start.onClick = function()
-    startApplication()
+   else
+    idkcstmToast("CODM not installed")
   end
+
 end
 
 local watermarkEnabled = true
