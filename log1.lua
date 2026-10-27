@@ -2088,21 +2088,30 @@ function showLockDialog(msg)
   animate()
 end
 
+
 local isStartedTriggered = false
 
-function startApplication(isAuto)
-  -- 🚨 ULTRA LOCKDOWN CHECK
+function startApplication()
+  -- Check kung kailangan ng update
   if isAppLockedForUpdate then
     showUpdateDialog()
-    showCustomToast("❌ Bypass Blocked: Update Required!", 0xFF141A24, 0xFFFF5252)
-    return -- Itinigil agad, walang bubuksan!
+    showCustomToast(
+      "❌ Update Required!",
+      0xFF141A24,
+      0xFFFF5252
+    )
+    return
   end
 
   if isStartedTriggered then return end
   isStartedTriggered = true
-  showCustomToast("⏳ Please wait, Initializing...", 0xFF141A24, 0xFF00FFEE)
 
-  -- Ginamit ang callback para hindi ma-block ang main thread
+  showCustomToast(
+    "⏳ Please wait, Initializing...",
+    0xFF141A24,
+    0xFF00FFEE
+  )
+
   getPasteStatus(function(status, message)
     if status ~= "OPEN" then
       showLockDialog(message)
@@ -2118,12 +2127,7 @@ function startApplication(isAuto)
 
     isMenuOpen = false
 
-    if not isAutoOpen then
-      showCustomToast("✅ Floating Icon Ready (Auto-Start Off)", 0xFF141A24, 0xFF00FFEE)
-      isStartedTriggered = false 
-      return
-    end
-
+    -- Open CODM only when Start is clicked
     local pm = activity.getPackageManager()
     local clonePkg = "com.garena.game.codm"
     local intent = pm.getLaunchIntentForPackage(clonePkg)
@@ -2136,12 +2140,19 @@ function startApplication(isAuto)
       }))
 
       task(3000, function()
-        pcall(function() startCODMDetector() end)
+        pcall(function()
+          startCODMDetector()
+        end)
       end)
     else
-      showCustomToast("❌ Virtual App / Clone not installed!", 0xFF141A24, 0xFFFF5252)
-      isStartedTriggered = false
+      showCustomToast(
+        "❌ CODM / Clone not installed!",
+        0xFF141A24,
+        0xFFFF5252
+      )
     end
+
+    isStartedTriggered = false
   end)
 end
 
