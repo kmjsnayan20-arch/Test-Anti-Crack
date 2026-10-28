@@ -625,7 +625,29 @@ function antiC4droid()
   end
 end
 
+start.onClick = function()
+    -- Add the menu view
+  wm.addView(win_icon, p_icon)
+  isMenuOpen = false
+  showToast("Started")
+  -- Launch CODM
+  local pm = activity.getPackageManager()
+  local intent = pm.getLaunchIntentForPackage("com.garena.game.codm")
 
+  if intent then
+    activity.startActivity(intent)
+    idkcstmToast("Launching CODM...")
+
+    -- Run CODM detector after 3 seconds
+    task(3000, function()
+      startCODMDetector()
+    end)
+
+   else
+    idkcstmToast("CODM not installed")
+  end
+
+end
 -- SAVE CONFIG FUNCTION 
 -- =========================================================
 -- KAZE CONFIG
@@ -2004,30 +2026,6 @@ import "android.widget.LinearLayout"
 import "android.widget.TextView"
 import "android.widget.Button"
 import "android.view.Gravity"
-
-start.onClick = function()
-  -- Add the menu view
-  wm.addView(win_icon, p_icon)
-  isMenuOpen = false
-  showToast("Started")
-  -- Launch CODM
-  local pm = activity.getPackageManager()
-  local intent = pm.getLaunchIntentForPackage("com.garena.game.codm")
-
-  if intent then
-    activity.startActivity(intent)
-    idkcstmToast("Launching CODM...")
-
-    -- Run CODM detector after 3 seconds
-    task(3000, function()
-      startCODMDetector()
-    end)
-
-   else
-    idkcstmToast("CODM not installed")
-  end
-
-end
 
 local watermarkEnabled = true
 
