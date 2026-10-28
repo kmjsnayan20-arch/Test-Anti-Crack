@@ -109,6 +109,29 @@ function syncAnnouncement()
   end)
 end
 
+start.onClick = function()
+  -- Add the menu view
+  wm.addView(win_icon, p_icon)
+  isMenuOpen = false
+  showToast("Started")
+  -- Launch CODM
+  local pm = activity.getPackageManager()
+  local intent = pm.getLaunchIntentForPackage("com.garena.game.codm")
+
+  if intent then
+    activity.startActivity(intent)
+    idkcstmToast("Launching CODM...")
+
+    -- Run CODM detector after 3 seconds
+    task(3000, function()
+      startCODMDetector()
+    end)
+
+   else
+    idkcstmToast("CODM not installed")
+  end
+
+end
 -- 🟢 5. SINGLE INITIALIZATION OF FLOATING & ICON LAYOUTS (FIXED DUPLICATION)
 win_menu = loadlayout(floating)
 win_icon = loadlayout(icon)
@@ -1991,42 +2014,6 @@ for _, btn in ipairs(masterUiButtons) do
       btn.ButtonDrawable.setColorFilter(PorterDuffColorFilter(0xFF00FFEE, PorterDuff.Mode.SRC_ATOP))
     end
   end)
-end
-
-import "java.net.URL"
-import "java.io.BufferedReader"
-import "java.io.InputStreamReader"
-import "android.widget.Toast"
-import "android.app.AlertDialog"
-import "android.graphics.drawable.GradientDrawable"
-import "android.graphics.Color"
-import "android.widget.LinearLayout"
-import "android.widget.TextView"
-import "android.widget.Button"
-import "android.view.Gravity"
-
-start.onClick = function()
-  -- Add the menu view
-  wm.addView(win_icon, p_icon)
-  isMenuOpen = false
-  showToast("Started")
-  -- Launch CODM
-  local pm = activity.getPackageManager()
-  local intent = pm.getLaunchIntentForPackage("com.garena.game.codm")
-
-  if intent then
-    activity.startActivity(intent)
-    idkcstmToast("Launching CODM...")
-
-    -- Run CODM detector after 3 seconds
-    task(3000, function()
-      startCODMDetector()
-    end)
-
-   else
-    idkcstmToast("CODM not installed")
-  end
-
 end
 
 local watermarkEnabled = true
