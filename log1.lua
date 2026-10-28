@@ -279,9 +279,9 @@ local function getParams(x, y)
           | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
 
     p.type = (Build.VERSION.SDK_INT >= 26)       
-        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-                     
+           and WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY 
+           or WindowManager.LayoutParams.TYPE_PHONE
+  
   p.width = WindowManager.LayoutParams.WRAP_CONTENT
   p.height = WindowManager.LayoutParams.WRAP_CONTENT
   p.gravity = Gravity.TOP | Gravity.LEFT
