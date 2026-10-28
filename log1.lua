@@ -280,9 +280,7 @@ local function getParams(x, y)
 
     p.type = (Build.VERSION.SDK_INT >= 26)       
         WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-      else
         WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-      end
                      
   p.width = WindowManager.LayoutParams.WRAP_CONTENT
   p.height = WindowManager.LayoutParams.WRAP_CONTENT
