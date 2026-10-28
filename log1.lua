@@ -277,6 +277,12 @@ local function getParams(x, y)
   -- TANGGALIN ANG MGA FLAGS NA NAGDO-DULOT NG RE-LAYOUT AT DAGDAGAN NG NO_LIMITS / NOT_FOCUSABLE
   p.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE 
           | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+
+    p.type = (Build.VERSION.SDK_INT >= 26)       
+        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+      else
+        WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+      end
                      
   p.width = WindowManager.LayoutParams.WRAP_CONTENT
   p.height = WindowManager.LayoutParams.WRAP_CONTENT
