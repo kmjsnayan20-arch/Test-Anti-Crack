@@ -110,10 +110,7 @@ function syncAnnouncement()
 end
 
 -- 🟢 5. SINGLE INITIALIZATION OF FLOATING & ICON LAYOUTS (FIXED DUPLICATION)
-local ids = {}
-win_menu = loadlayout(floating, ids)
-
-weaponBtn = ids.weaponBtn
+win_menu = loadlayout(floating)
 win_icon = loadlayout(icon)
 
 task(1000, function()
