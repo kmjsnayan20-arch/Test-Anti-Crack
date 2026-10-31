@@ -1888,25 +1888,6 @@ function norlsg.OnCheckedChangeListener()
   end
 end
 
-
-blueprint.ButtonDrawable.setColorFilter(PorterDuffColorFilter(0xFF00FFEE, PorterDuff.Mode.SRC_ATOP))
-function blueprint.OnCheckedChangeListener()
-  if blueprint.checked then
-    antiC4droid()
-    HexPatches.MemoryPatch("libunity.so", 0x901F988, "20 00 80 D2 C0 03 5F D6"); -- IsUnlocked
-    HexPatches.MemoryPatch("libunity.so", 0x9012214, "20 00 80 D2 C0 03 5F D6"); -- IsUnlocked
-    idkcstmToast("UNLOCK BLUE PRINT")
-  end
-end
-
-farflight.ButtonDrawable.setColorFilter(PorterDuffColorFilter(0xFF00FFEE, PorterDuff.Mode.SRC_ATOP))
-function farflight.OnCheckedChangeListener()
-  if farflight.checked then
-    antiC4droid()
-    cppPatch("gayontopp", "28371")
-  end
-end
-
 -- CheckBox Color All gun
 import "android.graphics.PorterDuff"
 import "android.graphics.PorterDuffColorFilter"
